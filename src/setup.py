@@ -19,7 +19,7 @@ setup(
                         'requests>=2.22.0',
                         'stringutils>=0.3.0',
                         'python-string-utils>=0.6.0',
-                        'psycopg2',
+                        'psycopg2-binary',
 			'tqdm>=4.36.1',
                         'sortedcontainers>=2.1.0'],
     setup_requires=['pytest-runner'],
