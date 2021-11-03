@@ -102,9 +102,7 @@ def generate_processing_tasks(
 
 
 def message_slack(message):
-    headers = {
-        "Content-type": "application/json",
-    }
+    headers = {"Content-type": "application/json"}
     data = {"text": message}
     requests.post(
         "https://hooks.slack.com/services/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",
@@ -408,7 +406,7 @@ def process_file_worker(t):
 
 
 def available_cpu_count():
-    """ Number of available virtual or physical CPUs on this system, i.e.
+    """Number of available virtual or physical CPUs on this system, i.e.
     user/real as output by time(1) when called with an optimally scaling
     userspace-only program"""
 
@@ -1565,16 +1563,16 @@ class PYTHEAS:
 
         cur.execute(
             """CREATE TABLE pat_line_and_cell_rules (
-                    crawl_datafile_key integer, 
-                    data_rules_fired json, 
+                    crawl_datafile_key integer,
+                    data_rules_fired json,
                     not_data_rules_fired json)"""
         )
         con.commit()
 
         cur.execute(
             """SELECT count(1)
-                        FROM ground_truth_2k_canada 
-                        WHERE annotations is not null                        
+                        FROM ground_truth_2k_canada
+                        WHERE annotations is not null
                         """
         )
         NINPUTS = cur.fetchone()[0]
@@ -4838,10 +4836,12 @@ def collect_dataframe_rules(csv_file, model, signatures):
                                 line_index : line_index + nonempty_patterns_idx + 1,
                                 column_index,
                             ]
-                            column_is_numeric_train = signatures.all_column_is_numeric_train[
-                                line_index : line_index + nonempty_patterns_idx + 1,
-                                column_index,
-                            ]
+                            column_is_numeric_train = (
+                                signatures.all_column_is_numeric_train[
+                                    line_index : line_index + nonempty_patterns_idx + 1,
+                                    column_index,
+                                ]
+                            )
                             break
 
             if column_train_sigs == None:
@@ -5017,10 +5017,15 @@ def collect_dataframe_rules(csv_file, model, signatures):
                                 + 1,
                                 columnindex,
                             ].tolist()
-                            column_bw_train_sigs = signatures.bw_train_normalized_numbers[
-                                line_index + 1 : line_index + nonempty_patterns_idx + 1,
-                                columnindex,
-                            ].tolist()
+                            column_bw_train_sigs = (
+                                signatures.bw_train_normalized_numbers[
+                                    line_index
+                                    + 1 : line_index
+                                    + nonempty_patterns_idx
+                                    + 1,
+                                    columnindex,
+                                ].tolist()
+                            )
                             column_symbols = signatures.symbolset_normalized_numbers[
                                 line_index
                                 + 1 : line_index

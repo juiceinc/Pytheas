@@ -2,7 +2,6 @@ import os, argparse, sys
 from getpass import getpass
 from multiprocessing import Pool
 from tqdm import tqdm
-import psycopg2
 import io
 from sqlalchemy import create_engine
 from timeit import default_timer as timer
@@ -16,7 +15,6 @@ from psycopg2 import connect
 from psycopg2.extras import Json
 from psycopg2.extras import execute_values
 
-import json
 import pickle
 import string
 
@@ -27,6 +25,7 @@ import evaluation_utilities
 from evaluation_utilities import assign_class
 
 import pprint
+
 
 pp = pprint.PrettyPrinter(indent=4)
 

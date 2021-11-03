@@ -25,5 +25,5 @@ data/examples/*
 # to two folders: a) csv files, b) json files (annotations)
 src/pytheas/save_training_input.py
 
-# 
 src/build/
+.envrc

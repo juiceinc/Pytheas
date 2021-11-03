@@ -13,7 +13,7 @@ from pytheas import pytheas
 pytheas = pytheas.API()
 pytheas.learn_and_save_weights('../../data/Canada/csv_files','../../data/Canada/csv_annotations')
 ```
-  
+
 ## Load trained weights
 ```python
 import pytheas
@@ -37,9 +37,9 @@ Pytheas = pytheas.API()
 #load pretrained rule weights
 Pytheas.load_weights('trained_rules.json')
 
-filepath = '../../data/examples/demo.csv'     
+filepath = '../../data/examples/demo.csv'
 file_annotations = Pytheas.infer_annotations(filepath)
-pprint(file_annotations) 
+pprint(file_annotations)
 
 ```
 
