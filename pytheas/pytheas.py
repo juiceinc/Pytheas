@@ -1,84 +1,60 @@
-import os, argparse, sys
-import pandas as pd
-import numpy as np
-from multiprocessing import Pool
+import argparse
 import codecs
-import csv
-
-from os import listdir
-from os.path import isfile, join
-
 # import string_utils
 import copy
+import csv
 import io
-from sqlalchemy import create_engine
+import json
+import os
+import pprint
+import re
+import string
+import subprocess
+import sys
 import traceback
+from datetime import timedelta
+from multiprocessing import Pool
+from os import listdir
+from os.path import isfile, join
+from timeit import default_timer as timer
+
+import evaluation.evaluation_utilities as evaluation_utilities
+import numpy as np
+import pandas as pd
+import psycopg2
+import requests
+from dotmap import DotMap
+from nltk.corpus import stopwords
+from psycopg2 import connect
+from psycopg2.extensions import AsIs, register_adapter
+from psycopg2.extras import Json, execute_values
+from sortedcontainers import SortedDict
+from sqlalchemy import create_engine
 from tqdm import tqdm
 
-from psycopg2 import connect
-from psycopg2.extras import Json
-from psycopg2.extras import execute_values
-import psycopg2
-from psycopg2.extensions import register_adapter, AsIs
+import pytheas.file_utilities as file_utilities
+import pytheas.nb_utilities as nb_util
+import pytheas.pat_utilities as pat_util
+import pytheas.table_classifier_utilities as table_classifier_utilities
+from pytheas.header_events import (collect_arithmetic_events_on_row,
+                                   collect_events_on_row,
+                                   header_row_with_aggregation_tokens)
+from pytheas.table_classifier_utilities import (
+    TableSignatures, all_numbers, assess_data_line, assess_non_data_line,
+    contains_number, discover_aggregation_scope, eval_data_cell_rule,
+    eval_not_data_cell_rule, is_consistent_symbol_sets, is_number,
+    line_has_null_equivalent, name_table_columns,
+    predict_combined_data_confidences, predict_fdl, predict_header_indexes,
+    predict_line_label)
 
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
-from dotmap import DotMap
-import json
-from sortedcontainers import SortedDict
-
-from timeit import default_timer as timer
-from datetime import timedelta
-
-from nltk import word_tokenize
-from nltk.corpus import stopwords
-import string
-
 stop = stopwords.words("french") + stopwords.words("english") + list(string.punctuation)
-
-
-import pytheas.nb_utilities as nb_util
-import pytheas.file_utilities as file_utilities
-import pytheas.table_classifier_utilities as table_classifier_utilities
-from pytheas.table_classifier_utilities import (
-    TableSignatures,
-    is_consistent_symbol_sets,
-    predict_fdl,
-    predict_line_label,
-    predict_combined_data_confidences,
-    predict_header_indexes,
-    eval_data_cell_rule,
-    eval_not_data_cell_rule,
-    line_has_null_equivalent,
-    all_numbers,
-    is_number,
-    assess_data_line,
-    assess_non_data_line,
-    non_nulls_in_line,
-    discover_aggregation_scope,
-    contains_number,
-    name_table_columns,
-    combo_row,
-)
-import pytheas.pat_utilities as pat_util
-from pytheas.header_events import (
-    collect_events_on_row,
-    collect_arithmetic_events_on_row,
-    header_row_with_aggregation_tokens,
-)
-import evaluation.evaluation_utilities as evaluation_utilities
-
-import requests
-
-import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-import os
-import re
-import subprocess
-import random
 
+DEFAULT_WEIGHTS = object()
 
 def generate_processing_tasks(
     pytheas_model, db_cred, files, max_lines, top_level_dir, opendata_engine
@@ -519,12 +495,19 @@ def available_cpu_count():
     raise Exception("Can not determine number of CPUs on this system")
 
 
+
 class API(object):
-    def __init__(self, db_params=None):
+    def __init__(self, weights=DEFAULT_WEIGHTS, db_params=None):
         self.real_pytheas = PYTHEAS()
+        self.load_weights(weights)
 
     def load_weights(self, filepath):
-        self.real_pytheas.load_weights(filepath)
+        if filepath is None:
+            pass
+        elif filepath is DEFAULT_WEIGHTS:
+            self.real_pytheas.load_weights("trained_rules.json")
+        else:
+            self.real_pytheas.load_weights(weights)
 
     def infer_annotations(self, filepath, max_lines=None):
         return self.real_pytheas.infer_annotations(filepath, max_lines)
