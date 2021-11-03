@@ -503,10 +503,10 @@ class API(object):
     def load_weights(self, filepath):
         if filepath is None:
             pass
-        elif filepath is DEFAULT_WEIGHTS:
+        elif filepath == DEFAULT_WEIGHTS:
             self.real_pytheas.load_weights("trained_rules.json")
         else:
-            self.real_pytheas.load_weights(weights)
+            self.real_pytheas.load_weights(filepath)
 
     def infer_annotations(self, filepath, max_lines=None):
         return self.real_pytheas.infer_annotations(filepath, max_lines)
