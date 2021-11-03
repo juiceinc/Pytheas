@@ -2,10 +2,11 @@ import unittest
 import pandas as pd
 import pprint
 from pytheas import pytheas
+
 pp = pprint.PrettyPrinter(indent=4)
 
-class TestPytheas(unittest.TestCase):
 
+class TestPytheas(unittest.TestCase):
     def setUp(self):
         trained_rules = "../pytheas/trained_rules.json"
         self.Pytheas = pytheas.API()
