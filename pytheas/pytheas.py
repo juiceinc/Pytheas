@@ -511,6 +511,9 @@ class API(object):
     def infer_annotations(self, filepath, max_lines=None):
         return self.real_pytheas.infer_annotations(filepath, max_lines)
 
+    def infer_annotations_from_df(self, df):
+        return self.real_pytheas.infer_annotations_from_df(df)
+
     def learn_and_save_weights(
         self,
         files_path,
