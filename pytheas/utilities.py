@@ -1,24 +1,18 @@
-# import tailer as tl
 import pandas as pd
 import numpy as np
 import csv
 import os
 import sys
 from collections import Counter
-import random
 import string
 import codecs
 import json
 
-# from chardet.universaldetector import UniversalDetector
-# import chardet
 import copy
 import cchardet as chardet
-import math
 
 # from asteval import Interpreter
 from pytheas.parsemathexpr import evaluate
-import operator
 from statistics import mean
 
 # LOG
@@ -749,7 +743,7 @@ def is_attribute_header(candidate, value_pattern_summary, value_symbol_summary):
 
 """
 Given a list of values 'row_values' discover values that are numeric.
-if they are more than k and 
+if they are more than k and
 if they are sorted by increasing value and
 if they increase with a consistent step
 add the indexes to a list and return the list

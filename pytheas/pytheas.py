@@ -1369,7 +1369,10 @@ class PYTHEAS:
         failure = None
         file_dataframe = None
         annotations = None
+        from time import time
+        starttime = time()
         try:
+            print(f"Starting {time()-starttime:.3f}")
             (
                 all_csv_tuples,
                 discovered_delimiter,
@@ -1421,6 +1424,7 @@ class PYTHEAS:
                     file_max_columns_processed = file_dataframe.iloc[
                         :, :slice_idx
                     ].shape[1]
+
                     predictions = self.extract_tables(
                         file_dataframe.iloc[:, :slice_idx], blank_lines
                     )
@@ -1432,6 +1436,56 @@ class PYTHEAS:
                         file_num_columns,
                         file_max_columns_processed,
                     )
+
+        except Exception as e:
+            print(
+                f"filepath={filepath} failed to process, {e}: {traceback.format_exc()}"
+            )
+        finally:
+            return annotations
+
+    def infer_annotations_from_df(self, df):
+        """
+        Returns a dictionary of annotations for the file located at filepath, optionally limited at max_lines
+            Parameters:
+                df (DataFrame): A dataframe
+            Returns:
+                annotations (dict): Dictionary representation of inferred file annotations
+        """
+        file_dataframe = df
+        annotations = None
+        try:
+            last_line_processed, file_num_columns = file_dataframe.shape
+
+            blank_lines = []
+            blank_lines = list(
+                file_dataframe[file_dataframe.isnull().all(axis=1)].index
+            )
+
+            if self.parameters.max_attributes != None:
+                max_attributes = self.parameters.max_attributes
+                if self.parameters.ignore_left != None:
+                    max_attributes = (
+                        self.parameters.max_attributes
+                        + self.parameters.ignore_left
+                    )
+                slice_idx = min(max_attributes, file_dataframe.shape[1]) + 1
+
+            file_max_columns_processed = file_dataframe.iloc[
+                :, :slice_idx
+            ].shape[1]
+
+            predictions = self.extract_tables(
+                file_dataframe.iloc[:, :slice_idx], blank_lines
+            )
+
+            annotations = convert_predictions(
+                predictions,
+                blank_lines,
+                last_line_processed,
+                file_num_columns,
+                file_max_columns_processed,
+            )
 
         except Exception as e:
             print(

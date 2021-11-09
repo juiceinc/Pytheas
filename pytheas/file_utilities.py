@@ -69,8 +69,8 @@ def split_lines_unquoted(txt):
     return res
 
 
-""" 
-given a list of candidate delimiters and a list of ranked delimiters, 
+"""
+given a list of candidate delimiters and a list of ranked delimiters,
 return the candidate delimiter with the highest ranking
 """
 
@@ -86,7 +86,7 @@ def breaktie(candidate_delim, ranked_delimiters):
 
 
 """
-Seek non-singlecount consistent consecutive token count for each 
+Seek non-singlecount consistent consecutive token count for each
 delimiter and select the delimiter with highest token count
 if there is a tie break it with a ranking of known delimiters
 """
