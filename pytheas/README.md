@@ -1,8 +1,6 @@
 # Setup
 
-```
-python -m nltk.downloader stopwords
-```
+
 # Pytheas Python API
 
 ## Train from dataset
