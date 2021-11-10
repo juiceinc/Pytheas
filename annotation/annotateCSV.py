@@ -1,8 +1,7 @@
-import sys, os
+import os
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from pathlib import Path
 import pandas as pd
-import numpy as np
 
 import file_utilities
 import pprint

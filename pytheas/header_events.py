@@ -7,18 +7,6 @@ from unidecode import unidecode
 
 def collect_arithmetic_events_on_row(row_values):
     events = []
-    # input(row_values)
-
-    # fired,times = arithmetic_sequence_non_adjacent(row_values)
-    # if fired == True:
-    #     if times>=6:
-    #         events.append("NON_ADJACENT_ARITHMETIC_SEQUENCE_6_plus")
-    #     elif times == 5:
-    #         events.append("NON_ADJACENT_ARITHMETIC_SEQUENCE_5")
-    #     elif times == 4:
-    #         events.append("NON_ADJACENT_ARITHMETIC_SEQUENCE_4")
-    #     elif times == 3:
-    #         events.append("NON_ADJACENT_ARITHMETIC_SEQUENCE_3")
 
     fired, times = integer_sequence_adjacent(row_values)
     if fired == True:
