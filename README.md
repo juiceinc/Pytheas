@@ -47,11 +47,6 @@ python setup.py sdist bdist_wheel
 pip install  --upgrade --force-reinstall dist/pytheas-0.0.1-py3-none-any.whl
 ```
 
-You may need to download nltk stopwords:
-```
-python -m nltk.downloader stopwords
-```
-
 ### Pytheas Python API
 
 #### Load trained weights

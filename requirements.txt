@@ -14,7 +14,6 @@ nltk==3.6.2
 numpy==1.20.2
 pandas==1.2.4
 pkg-resources==0.0.0
-psycopg2-binary==2.8.6
 python-dateutil==2.8.1
 python-string-utils==1.0.0
 pytz==2021.1
@@ -22,7 +21,6 @@ regex==2021.4.4
 requests==2.25.1
 six==1.15.0
 sortedcontainers==2.3.0
-SQLAlchemy==1.4.11
 stringutils==0.3.0
 tqdm==4.60.0
 typing-extensions==3.7.4.3

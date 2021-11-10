@@ -1,12 +1,6 @@
 import pandas as pd
 import numpy as np
-from timeit import default_timer as timer
-from datetime import timedelta
 
-from psycopg2 import connect
-from psycopg2.extras import execute_values
-
-import pytheas.file_utilities
 import pickle
 from dotmap import DotMap
 
@@ -206,45 +200,6 @@ def average_performance(pkl_filepath):
     print("- - - - - - - - - - - - - - - - - - - - - - -")
 
     return average_results
-
-
-def save_performance(db_cred, performance_df, relation_name, fold_id):
-    con = connect(
-        dbname=db_cred.database,
-        user=db_cred.user,
-        host="localhost",
-        password=db_cred.password,
-        port=db_cred.port,
-    )
-    cur = con.cursor()
-    if fold_id == 1:
-        cur.execute(f"DROP TABLE  IF EXISTS {relation_name}")
-        con.commit()
-
-        cur.execute(
-            f"""CREATE TABLE {relation_name} (
-            fold_id integer, 
-            measure text
-            ) """
-        )
-        con.commit()
-        for column in performance_df.columns:
-            cur.execute(f"""ALTER TABLE {relation_name} ADD COLUMN {column} real""")
-            con.commit()
-
-    insert_tuples = []
-    for measure, row in performance_df.iterrows():
-        insert_tuples.append(tuple([fold_id, measure] + row.tolist()))
-
-    execute_values(
-        cur,
-        f"""INSERT INTO  {relation_name}
-                        (fold_id, measure, {','.join(performance_df.columns)}) VALUES %s""",
-        insert_tuples,
-    )
-    con.commit()
-    cur.close()
-    con.close()
 
 
 def predict_performance(labels, y_test, y_pred):

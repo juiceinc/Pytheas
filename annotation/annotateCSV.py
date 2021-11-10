@@ -1,16 +1,9 @@
-from psycopg2 import connect
-from psycopg2.extras import Json
-import argparse, sys, os
+import sys, os
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from pathlib import Path
-import codecs
-import csv
 import pandas as pd
 import numpy as np
-import string
-import ast
 
-sys.path.append("../pytheas")
 import file_utilities
 import pprint
 import json

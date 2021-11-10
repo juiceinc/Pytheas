@@ -1,24 +1,21 @@
-import pandas as pd
-import numpy as np
-import csv
-import os
-import sys
-
-sys.path.append("../")
-from collections import Counter
-import random
-import string
 import codecs
-import json
 import copy
-import cchardet as chardet
-import math
-from pytheas.parsemathexpr import evaluate
-import operator
-from statistics import mean
+import csv
+import json
+import os
 
 # LOG
 import pprint
+import string
+import sys
+from collections import Counter
+from statistics import mean
+
+import cchardet as chardet
+import numpy as np
+import pandas as pd
+
+from pytheas.parsemathexpr import evaluate
 
 pp = pprint.PrettyPrinter(indent=4)
 

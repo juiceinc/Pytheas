@@ -1,36 +1,32 @@
+import codecs
+import copy
+import csv
 import os
+import string
 import sys
 import traceback
-import cchardet as chardet
-import codecs
-import pandas as pd
-import numpy as np
-import csv
-from pytheas.pat_utilities import null_equivalent_values as null_equivalent
-import pytheas.pat_utilities as pat
-from pytheas.pat_utilities import line_rules
-from pytheas.pat_utilities import cell_rules
-from pytheas.header_events import (
-    collect_events_on_row,
-    collect_arithmetic_events_on_row,
-    header_row_with_aggregation_tokens,
-)
-import copy
-from nltk import word_tokenize
-from nltk.corpus import stopwords
-import string
 
-stop = stopwords.words("french") + stopwords.words("english") + list(string.punctuation)
-from langdetect import detect
-from langdetect import detect_langs
-from langdetect import DetectorFactory
+import cchardet as chardet
+import numpy as np
+import pandas as pd
+from langdetect import DetectorFactory, detect, detect_langs
+from nltk import word_tokenize
+
+import pytheas.pat_utilities as pat
+from pytheas.header_events import (collect_arithmetic_events_on_row,
+                                   collect_events_on_row,
+                                   header_row_with_aggregation_tokens)
+from pytheas.pat_utilities import cell_rules, line_rules
+from pytheas.pat_utilities import null_equivalent_values as null_equivalent
+
+from .nb_utilities import stop
 
 DetectorFactory.seed = 0
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
-import math
 import itertools
+import math
 
 
 def eval_not_data_cell_rule(

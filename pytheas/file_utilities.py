@@ -1,37 +1,20 @@
+import codecs
+import csv
 import os
 import sys
-import traceback
-import cchardet as chardet
-import codecs
-from unidecode import unidecode
-
-import pandas as pd
-import numpy as np
-import csv
-
-# from pat_utilities import null_equivalent_values as null_equivalent
-# import pat_utilities as pat
-# from header_events import collect_events_on_row, collect_arithmetic_events_on_row
-import copy
-
-# from nltk import word_tokenize
-# from nltk.corpus import stopwords
-# stop = stopwords.words('french')+stopwords.words('english')+list(string.punctuation)
-import string
-
-from operator import add
 from functools import reduce
+from operator import add
 
-from langdetect import detect
-from langdetect import detect_langs
-from langdetect import DetectorFactory
+import cchardet as chardet
+import numpy as np
+import pandas as pd
+from langdetect import DetectorFactory, detect
+from unidecode import unidecode
 
 DetectorFactory.seed = 0
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
-import math
-import itertools
 
 
 def decode_value(row):
