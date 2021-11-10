@@ -24,6 +24,8 @@ data/examples/*
 # ignore script for converting annotations in psql
 # to two folders: a) csv files, b) json files (annotations)
 src/pytheas/save_training_input.py
-
+build/**
+.eggs/**
+pytheas.egg-info/**
 src/build/
 .envrc

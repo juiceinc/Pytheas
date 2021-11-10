@@ -77,13 +77,7 @@ def generate_processing_tasks(
 
 
 def message_slack(message):
-    headers = {"Content-type": "application/json"}
-    data = {"text": message}
-    requests.post(
-        "https://hooks.slack.com/services/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",
-        headers=headers,
-        data=str(data),
-    )
+    pass
 
 
 def process_file_worker(t):
