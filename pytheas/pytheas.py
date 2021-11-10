@@ -498,7 +498,8 @@ class API(object):
         if filepath is None:
             pass
         elif filepath == DEFAULT_WEIGHTS:
-            self.real_pytheas.load_weights("trained_rules.json")
+            default_weights_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "trained_rules.json"))
+            self.real_pytheas.load_weights(default_weights_path)
         else:
             self.real_pytheas.load_weights(filepath)
 
